@@ -8,7 +8,9 @@ const verifyJWT = asyncHandler(async(req,res,next)=>{
          throw new ApiError(403,"Not supported in this browser!")
       }
 
+        console.log(req.header('Authorization'));
         const token = req?.cookies?.accessToken || req.header('Authorization').replace('Bearer ',"");
+
 
         if(!token){
             throw new ApiError(401,'Unauthorized request!');
