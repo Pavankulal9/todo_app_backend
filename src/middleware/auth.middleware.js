@@ -7,10 +7,9 @@ const verifyJWT = asyncHandler(async(req,res,next)=>{
       if(req?.rawHeaders[7].includes('Safari')){
          throw new ApiError(403,"Not supported in this browser!")
       }
-
-        console.log(req.header('Authorization'));
-        const token = req?.cookies?.accessToken || req.header('Authorization').replace('Bearer ',"");
-
+      
+      console.log(req?.cookies?.accessToken)
+      const token = req?.cookies?.accessToken || req.header('Authorization').replace('Bearer ',"");
 
         if(!token){
             throw new ApiError(401,'Unauthorized request!');

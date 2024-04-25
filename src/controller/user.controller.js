@@ -101,7 +101,7 @@ const getCurrentUser= asyncHandler(async(req,res)=>{
 });
 
 const refreshAccessToken = asyncHandler(async(req,res)=>{
-    const incommingRefreshToken = req.cookies?.refreshToken || req.body.refreshToken;
+    const incommingRefreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken;
 
 
     if(!incommingRefreshToken){
@@ -111,7 +111,7 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
     const decoded = jwt.verify(incommingRefreshToken, process.env.REFRESH_TOKEN);
 
     if(!decoded?._id){
-        throw new ApiError(400,"Invaild refresh Token");
+        throw new ApiError(403,"Invaild refresh Token");
     }
 
     const user = await User.findById(decoded._id);
