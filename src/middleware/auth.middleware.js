@@ -5,10 +5,9 @@ import { User } from "../models/user.model.js";
 
 const verifyJWT = asyncHandler(async(req,res,next)=>{
       if(req?.rawHeaders[7].includes('Safari')){
-         throw new ApiError(403,"Not supported in this browser!")
+         throw new ApiError(402,"Not supported in this browser!")
       }
       
-      console.log(req?.cookies?.accessToken)
       const token = req?.cookies?.accessToken || req.header('Authorization').replace('Bearer ',"");
 
         if(!token){

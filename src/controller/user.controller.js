@@ -101,6 +101,7 @@ const getCurrentUser= asyncHandler(async(req,res)=>{
 });
 
 const refreshAccessToken = asyncHandler(async(req,res)=>{
+    console.log(req.cookies);
     const incommingRefreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken;
 
 
