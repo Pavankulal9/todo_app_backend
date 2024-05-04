@@ -75,7 +75,7 @@ const loginUser = asyncHandler(async(req,res)=>{
     const isPasswordCorrect = await user.isPasswordCorrect(password);
 
     if(!isPasswordCorrect){
-        throw new ApiError(409,"Invaild password!");
+        throw new ApiError(403,"Invaild password!");
     }
 
 
@@ -101,9 +101,7 @@ const getCurrentUser= asyncHandler(async(req,res)=>{
 });
 
 const refreshAccessToken = asyncHandler(async(req,res)=>{
-    console.log(req.cookies);
     const incommingRefreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken;
-
 
     if(!incommingRefreshToken){
         throw new ApiError(400,"Unauthorized request!");
