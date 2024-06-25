@@ -4,5 +4,5 @@ export const option = {
     httpOnly: true,
     secure: true,
     sameSite: "Lax",
-    expires: new Date(new Date().getTime() + 10*24*60*60*1000)
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)  
 }

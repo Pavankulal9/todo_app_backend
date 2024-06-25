@@ -4,6 +4,7 @@ import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
+import useragent from 'useragent';
 
 const generateAccessAndRefreshToken = async(userId)=>{
     try {
@@ -58,6 +59,8 @@ const registerUser = asyncHandler(async(req,res)=>{
 
 const loginUser = asyncHandler(async(req,res)=>{
     const {username,password}= req.body;
+    const agent = useragent.parse(req.headers['user-agent']);
+
 
     if(!username || username === ""){
       throw new ApiError(400,'usernama and password field required!');
@@ -83,6 +86,12 @@ const loginUser = asyncHandler(async(req,res)=>{
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
+    if(agent.family === "Safari" || agent.family ==="Mobile Safari"){
+        option.sameSite = "None"
+    }else{
+        option.sameSite = "Lax"
+    }
+
     res
     .status(200)
     .cookie("accessToken",accessToken,option)
@@ -102,6 +111,7 @@ const getCurrentUser= asyncHandler(async(req,res)=>{
 
 const refreshAccessToken = asyncHandler(async(req,res)=>{
     const incommingRefreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken;
+    const agent = useragent.parse(req.headers['user-agent']);
 
     if(!incommingRefreshToken){
         throw new ApiError(400,"Unauthorized request!");
@@ -117,6 +127,10 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
 
     const {accessToken,refreshToken} = await generateAccessAndRefreshToken(user._id); 
 
+    if(agent.family === "Safari" || agent.family ==="Mobile Safari"){
+        option.sameSite = "None"
+    }
+
     res
     .status(200)
     .cookie("accessToken",accessToken,option)
@@ -128,10 +142,16 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
 
 const logoutUser = asyncHandler(async(req,res)=>{
     const user = await User.findById(req.user._id);
-
+    const agent = useragent.parse(req.headers['user-agent']);
 
     user.refreshToken = undefined,
     await user.save({validateBeforeSave: true});
+
+    if(agent.family === "Safari" || agent.family ==="Mobile Safari"){
+        option.sameSite = "None"
+    }else{
+        option.sameSite = "Lax"
+    }
 
     res.clearCookie('jwt',option);
     res.json(
