@@ -74,7 +74,7 @@ const updateUserTodo = asyncHandler(async(req,res)=>{
     );
 
     if(!todo){
-        throw new ApiError(400,"Invaild Todo!");
+        throw new ApiError(400,"Invalid Todo!");
     }
 
 

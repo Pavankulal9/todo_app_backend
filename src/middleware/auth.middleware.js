@@ -14,7 +14,7 @@ const verifyJWT = asyncHandler(async(req,res,next)=>{
             throw new ApiError(401,'Unauthorized request!');
         }
 
-        const decoded =  jwt.verify(token, process.env.ACCESS_TOKEN);
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN);
         
         if(!decoded){
          throw new ApiError(403,"Access Token expired!");
@@ -23,7 +23,7 @@ const verifyJWT = asyncHandler(async(req,res,next)=>{
        const user = await User.findById(decoded._id).select("-password -refreshToken");
 
        if(!user){
-        throw new ApiError(400,"Invaild access token");
+        throw new ApiError(400,"Invalid access token");
        }
 
        req.user = user;

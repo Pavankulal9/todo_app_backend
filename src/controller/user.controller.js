@@ -17,7 +17,7 @@ const generateAccessAndRefreshToken = async(userId)=>{
     
         return {accessToken,refreshToken};
     } catch (error) {
-       throw new ApiError(500,"Somthing went wrong while generating tokens!"); 
+       throw new ApiError(500,"Something went wrong while generating tokens!"); 
     }
 }
 
@@ -60,7 +60,7 @@ const loginUser = asyncHandler(async(req,res)=>{
     const {username,password}= req.body;
 
     if(!username || username === ""){
-      throw new ApiError(400,'usernama and password field required!');
+      throw new ApiError(400,'username and password field required!');
     }
 
     const user = await User.findOne({
@@ -75,7 +75,7 @@ const loginUser = asyncHandler(async(req,res)=>{
     const isPasswordCorrect = await user.isPasswordCorrect(password);
 
     if(!isPasswordCorrect){
-        throw new ApiError(403,"Invaild password!");
+        throw new ApiError(403,"Invalid password!");
     }
 
 
@@ -97,21 +97,21 @@ const getCurrentUser= asyncHandler(async(req,res)=>{
     res
     .status(200)
     .json(
-        new ApiResponse(200,req.user,"fetched user details sucessfully")
+        new ApiResponse(200,req.user,"fetched user details successfully")
     )
 });
 
 const refreshAccessToken = asyncHandler(async(req,res)=>{
-    const incommingRefreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken;
+    const incomingRefreshToken = req?.cookies?.refreshToken || req?.body?.refreshToken;
 
-    if(!incommingRefreshToken){
+    if(!incomingRefreshToken){
         throw new ApiError(400,"Unauthorized request!");
     }
 
-    const decoded = jwt.verify(incommingRefreshToken, process.env.REFRESH_TOKEN);
+    const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN);
 
     if(!decoded?._id){
-        throw new ApiError(403,"Invaild refresh Token");
+        throw new ApiError(403,"Invalid refresh Token");
     }
 
     const user = await User.findById(decoded._id);

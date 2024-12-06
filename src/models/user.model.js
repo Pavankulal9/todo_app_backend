@@ -46,12 +46,12 @@ userSchema.methods.generateAccessToken =function(){
         {
             _id: this._id,
             name: this.name,
-            usename: this.username,
+            username: this.username,
             email: this.email,
         },
         process.env.ACCESS_TOKEN,
         {
-            expiresIn: process.env.EXPIERY_ACCESS_TOKEN
+            expiresIn: process.env.EXPIRY_ACCESS_TOKEN
         }
 );
 }
@@ -62,7 +62,7 @@ userSchema.methods.generateRefreshToken = function(){
    },
    process.env.REFRESH_TOKEN,
    {
-    expiresIn:process.env.EXPIERY_REFRESH_TOKEN
+    expiresIn:process.env.EXPIRY_REFRESH_TOKEN
    });
 
 }
