@@ -9,8 +9,8 @@ dotenv.config({
 });
 
 const options = {
-  key: fs.readFileSync("/etc/ssl/private/selfsigned.key"),
-  cert: fs.readFileSync("/etc/ssl/certs/selfsigned.crt"),
+  key: fs.readFileSync("/home/ubuntu/ssl/selfsigned.key"),
+  cert: fs.readFileSync("/home/ubuntu/ssl/selfsigned.crt"),
 };
 
 connectDB()
