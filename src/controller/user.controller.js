@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 
 const generateAccessAndRefreshToken = async(userId)=>{
     try {
+        console.log(userId)
         const user = await User.findById(userId);
         const accessToken = await user.generateAccessToken();
         const refreshToken = await user.generateRefreshToken();
@@ -17,6 +18,7 @@ const generateAccessAndRefreshToken = async(userId)=>{
     
         return {accessToken,refreshToken};
     } catch (error) {
+       console.log(error.message);
        throw new ApiError(500,"Something went wrong while generating tokens!"); 
     }
 }

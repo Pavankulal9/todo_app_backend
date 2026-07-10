@@ -64,7 +64,6 @@ userSchema.methods.generateRefreshToken = function(){
    {
     expiresIn:process.env.EXPIRY_REFRESH_TOKEN
    });
-
 }
 
 export const User = mongoose.model("User",userSchema);
